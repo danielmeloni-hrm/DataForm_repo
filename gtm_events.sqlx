@@ -1,0 +1,19 @@
+config {
+    type: "table",
+    schema: "dataform_staging",
+    name: "gtm_events_latest",
+    description: "Eventi filtrati con prefisso gtm. dall'ultima partizione disponibile"
+}
+
+SELECT
+  *
+FROM
+  ${ref("analytics_517838177", "events_*")}
+WHERE
+  event_name LIKE 'gtm.%'
+  AND _TABLE_SUFFIX = (
+    SELECT
+      MAX(_TABLE_SUFFIX)
+    FROM
+      ${ref("analytics_517838177", "events_*")}
+  )
