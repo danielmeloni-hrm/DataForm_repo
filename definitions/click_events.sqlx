@@ -1,6 +1,6 @@
 config {
     type: "table",
-    schema: "dataform_staging",
+    schema: "dataform",
     name: "click_events_latest",
     description: "Eventi filtrati con prefisso click_ dall'ultima partizione disponibile"
 }
@@ -8,12 +8,7 @@ config {
 SELECT
   *
 FROM
-  ${ref("analytics_517838177", "events_*")}
+  ${ref("raw_events_cleaned")}
 WHERE
   event_name LIKE 'click_%'
-  AND _TABLE_SUFFIX = (
-    SELECT
-      MAX(_TABLE_SUFFIX)
-    FROM
-      ${ref("analytics_517838177", "events_*")}
-  )
+  

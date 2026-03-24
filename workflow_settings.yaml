@@ -1,5 +1,5 @@
-# ESEMPIO CORRETTO (NUOVA VERSIONE)
+
+defaultProject: analystack
 defaultDataset: dataform
-assertionDataset: dataform_assertions
 defaultLocation: EU
-defaultProject: tuo-progetto-gcp
+defaultAssertionDataset: dataform_assertions

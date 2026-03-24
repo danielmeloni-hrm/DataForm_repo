@@ -1,0 +1,28 @@
+config {
+  type: "table",                
+  schema: "dataform",    // Dataset di destinazione (modificabile)
+  name: "raw_events_cleaned",    // Nome della tabella finale
+  description: "Dati grezzi estratti da GA4 e filtrati per i primi test",
+  columns: {
+    event_date: "Data dell'evento",
+    event_name: "Tipo di evento (click, page_view, ecc.)",
+    user_id: "ID univoco dell'utente"
+  }
+}
+
+-- La query SQLX vera e propria
+SELECT
+  event_date,
+  event_name,
+  user_pseudo_id AS user_id,
+  event_timestamp,
+  -- Estrazione di parametri comuni se necessari
+  (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'page_location') AS page_location
+FROM
+  ${ref("events_*")}
+WHERE
+  -- Esempio: prendi solo gli ultimi 2 giorni per non saturare BigQuery durante i test
+  _TABLE_SUFFIX BETWEEN 
+    FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 10 DAY)) 
+    AND 
+    FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY))
