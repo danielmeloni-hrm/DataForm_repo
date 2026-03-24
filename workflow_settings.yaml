@@ -1,6 +1,5 @@
-defaultProjectConfig:
-  defaultDatabase: analystack
-  defaultSchema: dataform_staging
-  defaultLocation: europe-west1
-  assertionSchema: dataform_assertions
-dataformCoreVersion: 3.0.0
+# ESEMPIO CORRETTO (NUOVA VERSIONE)
+defaultDataset: dataform
+assertionDataset: dataform_assertions
+defaultLocation: EU
+defaultProject: tuo-progetto-gcp
